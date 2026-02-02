@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Verify Lekka — Request from Rahul</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/sections.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* Specific Styles for the Receipt Card */
+        .verify-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--color-bg-primary);
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(var(--color-accent-primary-rgb), 0.1), transparent 50%);
+            padding: var(--space-4);
+        }
+
+        .receipt-card {
+            width: 100%;
+            max-width: 400px;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-2xl);
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        .receipt-header {
+            background: rgba(var(--color-accent-primary-rgb), 0.05);
+            padding: var(--space-6);
+            text-align: center;
+            border-bottom: 1px dashed var(--color-border);
+        }
+
+        .receipt-avatar {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto var(--space-4);
+            background: linear-gradient(135deg, var(--color-bg-tertiary), var(--color-bg-secondary));
+            border: 2px solid var(--color-accent-primary);
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-display);
+            font-size: var(--text-2xl);
+            color: var(--color-accent-primary);
+        }
+
+        .receipt-amount {
+            font-family: var(--font-display);
+            font-size: var(--text-5xl);
+            color: var(--color-accent-primary);
+            margin: var(--space-2) 0;
+            text-shadow: 0 0 20px rgba(var(--color-accent-primary-rgb), 0.3);
+        }
+
+        .receipt-body {
+            padding: var(--space-6);
+        }
+
+        .receipt-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: var(--space-3);
+            font-size: var(--text-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .receipt-row strong {
+            color: var(--color-text-primary);
+        }
+
+        .receipt-note {
+            background: var(--color-bg-secondary);
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            margin: var(--space-4) 0;
+            font-size: var(--text-sm);
+            color: var(--color-text-primary);
+            display: flex;
+            gap: var(--space-2);
+        }
+
+        .receipt-actions {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-3);
+        }
+
+        /* Confetti Canvas */
+        #confetti-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Success State */
+        .success-message {
+            display: none;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-4);
+            display: block;
+            animation: bounce 2s infinite;
+        }
+
+        .btn-dispute {
+            text-align: center;
+            font-size: var(--text-sm);
+            color: var(--color-text-tertiary);
+            text-decoration: underline;
+            padding: var(--space-2);
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .btn-dispute:hover {
+            opacity: 1;
+            color: var(--color-error);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="verify-page">
+        <canvas id="confetti-canvas"></canvas>
+
+        <div class="receipt-card animate-fade-in-up" id="main-card">
+            
+            <div id="request-state">
+                <div class="receipt-header">
+                    <div class="receipt-avatar">R</div>
+                    <p class="text-sm text-gray-400 uppercase tracking-widest mb-1">Lekka Request</p>
+                    <h2 class="text-xl font-bold">Rahul requests</h2>
+                    <div class="receipt-amount">₹500</div>
+                </div>
+
+                <div class="receipt-body">
+                    <div class="receipt-row">
+                        <span>Date</span>
+                        <strong>Oct 24, 2025</strong>
+                    </div>
+                    <div class="receipt-row">
+                        <span>Category</span>
+                        <strong>Food & Dining</strong>
+                    </div>
+
+                    <div class="receipt-note">
+                        <span class="text-gray-500">📝</span>
+                        <em>"For: Biryani at Paradise"</em>
+                    </div>
+
+                    <div class="receipt-actions">
+                        <button onclick="confirmLekka()" class="btn btn--primary btn--large btn--glow w-full justify-center">
+                            ✅ Confirm Amount
+                        </button>
+                        <a href="#" class="btn-dispute">❌ This amount is wrong / Dispute</a>
+                    </div>
+                </div>
+            </div>
+
+            <div id="success-state" class="success-message receipt-body" style="padding: var(--space-10) var(--space-6);">
+                <span class="success-icon">🎉</span>
+                <h2 class="text-2xl font-bold mb-2">Lekka Verified!</h2>
+                <p class="text-gray-400 mb-6">You've confirmed the ₹500. We'll remind you gently later.</p>
+                
+                <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 mb-4">
+                    <p class="text-xs text-gray-500 uppercase mb-2">Want to track your own?</p>
+                    <a href="index.html" class="btn btn--secondary w-full justify-center">
+                        Download Lekka
+                    </a>
+                </div>
+                <p class="text-xs text-gray-600">This receipt is saved on Rahul's device.</p>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        function confirmLekka() {
+            // 1. Hide Request, Show Success
+            document.getElementById('request-state').style.display = 'none';
+            document.getElementById('success-state').style.display = 'block';
+
+            // 2. Trigger Confetti
+            var duration = 3 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            var random = function(min, max) { return Math.random() * (max - min) + min; };
+
+            var interval = setInterval(function() {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+                
+                // Colors: Neon Green and White
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: random(0.1, 0.3), y: Math.random() - 0.2 },
+                    colors: ['#CCFF00', '#ffffff'] 
+                }));
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: random(0.7, 0.9), y: Math.random() - 0.2 },
+                    colors: ['#CCFF00', '#ffffff'] 
+                }));
+            }, 250);
+        }
+    </script>
+</body>
+</html>
