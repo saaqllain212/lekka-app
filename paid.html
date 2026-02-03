@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Mark as Paid — Lekka</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💸</text></svg>">
+    
+    <style>
+        :root {
+            --color-bg-primary: #0a0a0a;
+            --color-bg-secondary: #111111;
+            --color-bg-tertiary: #1a1a1a;
+            --color-bg-card: #151515;
+            --color-accent-primary: #CCFF00;
+            --color-accent-primary-rgb: 204, 255, 0;
+            --color-accent-secondary: #00FF88;
+            --color-text-primary: #FFFFFF;
+            --color-text-secondary: #B3B3B3;
+            --color-text-tertiary: #666666;
+            --color-success: #00FF88;
+            --color-warning: #FFD93D;
+            --color-error: #FF6B6B;
+            --color-border: rgba(255, 255, 255, 0.08);
+            --font-display: 'Syne', sans-serif;
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-2xl: 24px;
+            --radius-full: 9999px;
+            --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
+            --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--color-text-primary);
+            background-color: var(--color-bg-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+            background-image: radial-gradient(circle at 50% 0%, rgba(0, 255, 136, 0.08), transparent 50%);
+        }
+        .card {
+            width: 100%;
+            max-width: 420px;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            animation: slideUp 0.6s ease-out;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .card-header {
+            background: rgba(0, 255, 136, 0.05);
+            padding: var(--space-8) var(--space-6);
+            text-align: center;
+            border-bottom: 1px dashed var(--color-border);
+            position: relative;
+        }
+        .card-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-success), var(--color-accent-primary));
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-2);
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            padding: var(--space-2) var(--space-4);
+            border-radius: var(--radius-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--color-success);
+            margin-bottom: var(--space-4);
+        }
+        .status-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--color-success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        .card-title {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+        }
+        .amount {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--color-success);
+            line-height: 1;
+            margin: var(--space-4) 0;
+            text-shadow: 0 0 30px rgba(0, 255, 136, 0.4);
+        }
+        .subtitle { font-size: 0.9rem; color: var(--color-text-tertiary); }
+        .card-body { padding: var(--space-6); }
+        .info-box {
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-bottom: var(--space-5);
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: var(--space-2) 0;
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            border-bottom: 1px solid var(--color-border);
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-row strong { color: var(--color-text-primary); }
+        .upload-section {
+            border: 2px dashed var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-6);
+            text-align: center;
+            margin-bottom: var(--space-5);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .upload-section:hover {
+            border-color: var(--color-accent-primary);
+            background: rgba(var(--color-accent-primary-rgb), 0.03);
+        }
+        .upload-section.has-file {
+            border-color: var(--color-success);
+            background: rgba(0, 255, 136, 0.05);
+        }
+        .upload-icon { font-size: 2.5rem; margin-bottom: var(--space-3); }
+        .upload-text { font-size: 0.9rem; color: var(--color-text-secondary); margin-bottom: var(--space-2); }
+        .upload-hint { font-size: 0.75rem; color: var(--color-text-tertiary); }
+        .file-input { display: none; }
+        .file-preview {
+            display: none;
+            align-items: center;
+            gap: var(--space-3);
+            background: var(--color-bg-secondary);
+            padding: var(--space-3);
+            border-radius: var(--radius-md);
+            margin-bottom: var(--space-5);
+        }
+        .file-preview.show { display: flex; }
+        .file-preview-icon { font-size: 1.5rem; }
+        .file-preview-info { flex: 1; }
+        .file-preview-name { font-size: 0.85rem; font-weight: 500; }
+        .file-preview-size { font-size: 0.75rem; color: var(--color-text-tertiary); }
+        .file-preview-remove {
+            background: none;
+            border: none;
+            color: var(--color-error);
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            width: 100%;
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: var(--space-4) var(--space-6);
+            border-radius: var(--radius-lg);
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+        .btn--primary {
+            background: var(--color-success);
+            color: var(--color-bg-primary);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+        }
+        .btn--primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+        }
+        .btn--primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .optional-tag {
+            font-size: 0.7rem;
+            background: var(--color-bg-tertiary);
+            padding: var(--space-1) var(--space-2);
+            border-radius: var(--radius-full);
+            color: var(--color-text-tertiary);
+            margin-left: var(--space-2);
+        }
+        .note {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--color-text-tertiary);
+            margin-top: var(--space-4);
+        }
+        /* Success State */
+        .success-state {
+            display: none;
+            padding: var(--space-10) var(--space-6);
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: var(--space-4);
+            animation: bounce 1s ease infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .success-title {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: var(--space-2);
+            color: var(--color-success);
+        }
+        .success-subtitle {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-6);
+        }
+        .logo {
+            margin-top: var(--space-6);
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--color-text-tertiary);
+        }
+        .logo span { color: var(--color-accent-primary); }
+        @media (max-width: 480px) {
+            .amount { font-size: 2.5rem; }
+            .card-title { font-size: 1.1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <!-- MAIN STATE -->
+        <div id="main-state">
+            <div class="card-header">
+                <div class="status-badge">Active Lekka</div>
+                <h1 class="card-title">Time to clear this Lekka!</h1>
+                <div class="amount">₹500</div>
+                <p class="subtitle">You owe Rahul</p>
+            </div>
+            <div class="card-body">
+                <div class="info-box">
+                    <div class="info-row">
+                        <span>📅 Created</span>
+                        <strong>Oct 24, 2025</strong>
+                    </div>
+                    <div class="info-row">
+                        <span>📝 For</span>
+                        <strong>Biryani at Paradise</strong>
+                    </div>
+                    <div class="info-row">
+                        <span>⏰ Due</span>
+                        <strong>Nov 1, 2025</strong>
+                    </div>
+                </div>
+                
+                <label class="upload-section" id="upload-section">
+                    <input type="file" class="file-input" id="file-input" accept="image/*">
+                    <div class="upload-icon">📸</div>
+                    <p class="upload-text">Add payment screenshot <span class="optional-tag">Optional</span></p>
+                    <p class="upload-hint">Tap to upload proof of payment</p>
+                </label>
+                
+                <div class="file-preview" id="file-preview">
+                    <span class="file-preview-icon">🖼️</span>
+                    <div class="file-preview-info">
+                        <div class="file-preview-name" id="file-name">screenshot.jpg</div>
+                        <div class="file-preview-size" id="file-size">245 KB</div>
+                    </div>
+                    <button class="file-preview-remove" onclick="removeFile()">✕</button>
+                </div>
+                
+                <button class="btn btn--primary" onclick="markAsPaid()">
+                    ✅ I've Paid ₹500
+                </button>
+                
+                <p class="note">Rahul will be asked to confirm receipt of payment.</p>
+            </div>
+        </div>
+        
+        <!-- SUCCESS STATE -->
+        <div id="success-state" class="success-state">
+            <span class="success-icon">🎊</span>
+            <h2 class="success-title">Payment Submitted!</h2>
+            <p class="success-subtitle">
+                Rahul will confirm receipt.<br>
+                Once confirmed, this Lekka is cleared! 🎉
+            </p>
+            <a href="index.html" class="btn btn--primary">
+                Back to Lekka
+            </a>
+        </div>
+    </div>
+    
+    <div class="logo">LEKK<span>∆</span></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        const fileInput = document.getElementById('file-input');
+        const uploadSection = document.getElementById('upload-section');
+        const filePreview = document.getElementById('file-preview');
+        
+        fileInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                document.getElementById('file-name').textContent = file.name;
+                document.getElementById('file-size').textContent = (file.size / 1024).toFixed(0) + ' KB';
+                uploadSection.style.display = 'none';
+                filePreview.classList.add('show');
+            }
+        });
+        
+        function removeFile() {
+            fileInput.value = '';
+            uploadSection.style.display = 'block';
+            filePreview.classList.remove('show');
+        }
+        
+        function markAsPaid() {
+            document.getElementById('main-state').style.display = 'none';
+            document.getElementById('success-state').style.display = 'block';
+            
+            // Confetti
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#00FF88', '#CCFF00', '#ffffff']
+            });
+        }
+    </script>
+</body>
+</html>

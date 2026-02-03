@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Link Expired — Lekka</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💸</text></svg>">
+    <style>
+        :root{--bg:#0a0a0a;--bg2:#111;--card:#151515;--accent:#CCFF00;--text:#fff;--text2:#B3B3B3;--text3:#666;--border:rgba(255,255,255,0.08);--display:'Syne',sans-serif;--heading:'Space Grotesk',sans-serif;--body:'DM Sans',sans-serif}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:var(--body);font-size:16px;line-height:1.6;color:var(--text);background:var(--bg);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem;text-align:center}
+        .icon{font-size:5rem;margin-bottom:1.5rem;opacity:.5}
+        h1{font-family:var(--display);font-size:2rem;font-weight:800;margin-bottom:.75rem}
+        .subtitle{font-size:1rem;color:var(--text2);margin-bottom:2rem;max-width:320px}
+        .card{background:var(--card);border:1px solid var(--border);border-radius:1rem;padding:1.5rem;margin-bottom:2rem;max-width:360px;text-align:left}
+        .card-title{font-family:var(--heading);font-size:.9rem;font-weight:600;margin-bottom:1rem;color:var(--text3)}
+        .reason{display:flex;align-items:flex-start;gap:.75rem;padding:.75rem 0;border-bottom:1px solid var(--border);font-size:.9rem;color:var(--text2)}
+        .reason:last-child{border-bottom:none}
+        .reason-icon{font-size:1.25rem}
+        .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:var(--heading);font-size:.95rem;font-weight:600;padding:1rem 2rem;border-radius:.75rem;border:none;cursor:pointer;transition:all .25s;text-decoration:none;background:var(--accent);color:var(--bg);box-shadow:0 0 20px rgba(204,255,0,0.3)}
+        .btn:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(204,255,0,0.5)}
+        .logo{margin-top:2rem;font-family:var(--display);font-size:1rem;font-weight:700;letter-spacing:.15em;color:var(--text3)}
+        .logo span{color:var(--accent)}
+    </style>
+</head>
+<body>
+    <div class="icon">🔗</div>
+    <h1>This link has expired</h1>
+    <p class="subtitle">The Lekka you're looking for is no longer available.</p>
+    
+    <div class="card">
+        <div class="card-title">This could mean:</div>
+        <div class="reason"><span class="reason-icon">✅</span><span>The Lekka was already settled</span></div>
+        <div class="reason"><span class="reason-icon">❌</span><span>The Lekka was cancelled by the creator</span></div>
+        <div class="reason"><span class="reason-icon">⏰</span><span>The link expired (30+ days old)</span></div>
+        <div class="reason"><span class="reason-icon">🔒</span><span>The link was blocked for security</span></div>
+    </div>
+    
+    <a href="index.html" class="btn">Get Lekka App</a>
+    
+    <div class="logo">LEKK<span>∆</span></div>
+</body>
+</html>

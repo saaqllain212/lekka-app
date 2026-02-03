@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Confirm Payment — Lekka</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💸</text></svg>">
+    
+    <style>
+        :root {
+            --color-bg-primary: #0a0a0a;
+            --color-bg-secondary: #111111;
+            --color-bg-tertiary: #1a1a1a;
+            --color-bg-card: #151515;
+            --color-accent-primary: #CCFF00;
+            --color-accent-primary-rgb: 204, 255, 0;
+            --color-text-primary: #FFFFFF;
+            --color-text-secondary: #B3B3B3;
+            --color-text-tertiary: #666666;
+            --color-success: #00FF88;
+            --color-warning: #FFD93D;
+            --color-error: #FF6B6B;
+            --color-border: rgba(255, 255, 255, 0.08);
+            --font-display: 'Syne', sans-serif;
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            --radius-md: 8px; --radius-lg: 12px; --radius-xl: 16px; --radius-2xl: 24px; --radius-full: 9999px;
+            --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem;
+            --space-5: 1.25rem; --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem;
+        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: var(--font-body); font-size: 16px; line-height: 1.6;
+            color: var(--color-text-primary); background-color: var(--color-bg-primary);
+            min-height: 100vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; padding: var(--space-4);
+            background-image: radial-gradient(circle at 50% 0%, rgba(255, 217, 61, 0.08), transparent 50%);
+        }
+        .card {
+            width: 100%; max-width: 420px; background: var(--color-bg-card);
+            border: 1px solid var(--color-border); border-radius: var(--radius-2xl);
+            overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            animation: slideUp 0.6s ease-out;
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .card-header {
+            background: rgba(255, 217, 61, 0.05); padding: var(--space-8) var(--space-6);
+            text-align: center; border-bottom: 1px dashed var(--color-border); position: relative;
+        }
+        .card-header::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, var(--color-warning), var(--color-accent-primary));
+        }
+        .notification-badge {
+            display: inline-flex; align-items: center; gap: var(--space-2);
+            background: rgba(255, 217, 61, 0.15); border: 1px solid rgba(255, 217, 61, 0.3);
+            padding: var(--space-2) var(--space-4); border-radius: var(--radius-full);
+            font-size: 0.8rem; font-weight: 600; color: var(--color-warning); margin-bottom: var(--space-4);
+        }
+        .avatar-group { display: flex; justify-content: center; align-items: center; gap: var(--space-3); margin-bottom: var(--space-4); }
+        .avatar {
+            width: 56px; height: 56px; background: linear-gradient(135deg, var(--color-bg-tertiary), var(--color-bg-secondary));
+            border: 2px solid var(--color-border); border-radius: var(--radius-full);
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--color-text-secondary);
+        }
+        .avatar--highlight { border-color: var(--color-success); color: var(--color-success); }
+        .avatar-arrow { font-size: 1.5rem; color: var(--color-success); }
+        .card-title { font-family: var(--font-heading); font-size: 1.15rem; font-weight: 600; margin-bottom: var(--space-2); }
+        .amount { font-family: var(--font-display); font-size: 2.75rem; font-weight: 800; color: var(--color-success); line-height: 1; margin: var(--space-3) 0; }
+        .subtitle { font-size: 0.85rem; color: var(--color-text-tertiary); }
+        .card-body { padding: var(--space-6); }
+        .proof-section { background: var(--color-bg-secondary); border-radius: var(--radius-lg); padding: var(--space-4); margin-bottom: var(--space-5); }
+        .proof-header { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3); font-size: 0.85rem; color: var(--color-text-secondary); }
+        .proof-image { width: 100%; border-radius: var(--radius-md); border: 1px solid var(--color-border); cursor: pointer; transition: transform 0.2s; }
+        .proof-image:hover { transform: scale(1.02); }
+        .info-row { display: flex; justify-content: space-between; padding: var(--space-3) 0; font-size: 0.9rem; color: var(--color-text-secondary); border-bottom: 1px solid var(--color-border); }
+        .info-row:last-child { border-bottom: none; }
+        .info-row strong { color: var(--color-text-primary); }
+        .actions { display: flex; flex-direction: column; gap: var(--space-3); margin-top: var(--space-5); }
+        .btn {
+            display: flex; align-items: center; justify-content: center; gap: var(--space-2); width: 100%;
+            font-family: var(--font-heading); font-size: 0.95rem; font-weight: 600;
+            padding: var(--space-4) var(--space-6); border-radius: var(--radius-lg);
+            border: none; cursor: pointer; transition: all 0.25s ease; text-decoration: none;
+        }
+        .btn--success { background: var(--color-success); color: var(--color-bg-primary); box-shadow: 0 0 20px rgba(0, 255, 136, 0.3); }
+        .btn--success:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(0, 255, 136, 0.5); }
+        .btn--secondary { background: transparent; color: var(--color-text-secondary); border: 1px solid var(--color-border); }
+        .btn--secondary:hover { border-color: var(--color-error); color: var(--color-error); }
+        .success-state { display: none; padding: var(--space-10) var(--space-6); text-align: center; }
+        .success-icon { font-size: 4rem; display: block; margin-bottom: var(--space-4); animation: bounce 1s ease infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .success-title { font-family: var(--font-display); font-size: 1.75rem; font-weight: 700; margin-bottom: var(--space-2); color: var(--color-success); }
+        .success-subtitle { font-size: 1rem; color: var(--color-text-secondary); margin-bottom: var(--space-6); line-height: 1.6; }
+        .celebration-text { background: rgba(var(--color-accent-primary-rgb), 0.1); border: 1px solid rgba(var(--color-accent-primary-rgb), 0.2); border-radius: var(--radius-lg); padding: var(--space-4); margin-bottom: var(--space-6); font-size: 0.95rem; color: var(--color-accent-primary); }
+        .dispute-state { display: none; padding: var(--space-10) var(--space-6); text-align: center; }
+        .dispute-icon { font-size: 3rem; margin-bottom: var(--space-4); }
+        .dispute-title { font-family: var(--font-heading); font-size: 1.5rem; font-weight: 600; color: var(--color-warning); margin-bottom: var(--space-3); }
+        .dispute-subtitle { font-size: 0.95rem; color: var(--color-text-secondary); }
+        .logo { margin-top: var(--space-6); font-family: var(--font-display); font-size: 1rem; font-weight: 700; letter-spacing: 0.15em; color: var(--color-text-tertiary); }
+        .logo span { color: var(--color-accent-primary); }
+        .image-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 100; align-items: center; justify-content: center; padding: var(--space-4); }
+        .image-modal.active { display: flex; }
+        .image-modal img { max-width: 100%; max-height: 90vh; border-radius: var(--radius-lg); }
+        .image-modal-close { position: absolute; top: var(--space-4); right: var(--space-4); background: var(--color-bg-card); border: none; color: var(--color-text-primary); width: 40px; height: 40px; border-radius: var(--radius-full); font-size: 1.2rem; cursor: pointer; }
+        @media (max-width: 480px) { .amount { font-size: 2.25rem; } .card-title { font-size: 1rem; } .avatar { width: 48px; height: 48px; font-size: 1rem; } }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div id="main-state">
+            <div class="card-header">
+                <div class="notification-badge">⚡ Payment Notification</div>
+                <div class="avatar-group">
+                    <div class="avatar avatar--highlight">P</div>
+                    <span class="avatar-arrow">→</span>
+                    <div class="avatar">R</div>
+                </div>
+                <h1 class="card-title">Priya says she paid you!</h1>
+                <div class="amount">₹500</div>
+                <p class="subtitle">Did you receive this payment?</p>
+            </div>
+            <div class="card-body">
+                <div class="proof-section">
+                    <div class="proof-header"><span>📎</span><span>Payment Proof Attached</span></div>
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200'%3E%3Crect fill='%231a1a1a' width='400' height='200'/%3E%3Ctext x='50%25' y='45%25' fill='%23666' font-family='sans-serif' font-size='14' text-anchor='middle'%3EUPI Payment Screenshot%3C/text%3E%3Ctext x='50%25' y='60%25' fill='%2300FF88' font-family='sans-serif' font-size='20' font-weight='bold' text-anchor='middle'%3E₹500 to Rahul%3C/text%3E%3Ctext x='50%25' y='75%25' fill='%23666' font-family='sans-serif' font-size='12' text-anchor='middle'%3EUPI Ref: 431298765432%3C/text%3E%3C/svg%3E" alt="Payment proof" class="proof-image" onclick="openImageModal(this.src)">
+                </div>
+                <div class="info-row"><span>📅 Original Date</span><strong>Oct 24, 2025</strong></div>
+                <div class="info-row"><span>💳 Payment Claimed</span><strong>Nov 1, 2025</strong></div>
+                <div class="info-row"><span>📝 Note</span><strong>Biryani at Paradise</strong></div>
+                <div class="actions">
+                    <button class="btn btn--success" onclick="confirmPayment()">✅ Yes, I received ₹500</button>
+                    <button class="btn btn--secondary" onclick="disputePayment()">❌ No, I haven't received it</button>
+                </div>
+            </div>
+        </div>
+        <div id="success-state" class="success-state">
+            <span class="success-icon">🎉</span>
+            <h2 class="success-title">Lekka Cleared!</h2>
+            <p class="success-subtitle">This Lekka with Priya is now settled.<br>Both of you are even!</p>
+            <div class="celebration-text">🤝 Friendship intact. Money sorted.</div>
+            <a href="index.html" class="btn btn--success">Back to Dashboard</a>
+        </div>
+        <div id="dispute-state" class="dispute-state">
+            <span class="dispute-icon">⚠️</span>
+            <h2 class="dispute-title">Payment Disputed</h2>
+            <p class="dispute-subtitle">You've indicated you haven't received the payment.<br>Priya will be notified to sort this out.</p>
+            <a href="index.html" class="btn btn--secondary" style="margin-top: var(--space-6);">Back to Dashboard</a>
+        </div>
+    </div>
+    <div class="logo">LEKK<span>∆</span></div>
+    <div class="image-modal" id="image-modal" onclick="closeImageModal()">
+        <button class="image-modal-close">✕</button>
+        <img id="modal-image" src="" alt="Payment proof">
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        function confirmPayment() {
+            document.getElementById('main-state').style.display = 'none';
+            document.getElementById('success-state').style.display = 'block';
+            const colors = ['#00FF88', '#CCFF00', '#ffffff'];
+            const end = Date.now() + 3000;
+            (function frame() {
+                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+            setTimeout(() => confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 }, colors }), 300);
+        }
+        function disputePayment() {
+            if (confirm('Are you sure you haven\'t received this payment?')) {
+                document.getElementById('main-state').style.display = 'none';
+                document.getElementById('dispute-state').style.display = 'block';
+            }
+        }
+        function openImageModal(src) { document.getElementById('modal-image').src = src; document.getElementById('image-modal').classList.add('active'); }
+        function closeImageModal() { document.getElementById('image-modal').classList.remove('active'); }
+        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeImageModal(); });
+    </script>
+</body>
+</html>

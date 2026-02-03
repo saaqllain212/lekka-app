@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Gift Pool — Priya's Birthday 🎂</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+    <style>
+        :root{--bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;--card:#151515;--accent:#CCFF00;--pink:#FF6B9D;--text:#fff;--text2:#B3B3B3;--text3:#666;--success:#00FF88;--warning:#FFD93D;--border:rgba(255,255,255,0.08);--display:'Syne',sans-serif;--heading:'Space Grotesk',sans-serif;--body:'DM Sans',sans-serif}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:var(--body);font-size:16px;line-height:1.6;color:var(--text);background:var(--bg);min-height:100vh;padding:1rem 1rem 3rem;background-image:radial-gradient(circle at 50% 0%,rgba(255,107,157,0.1),transparent 50%)}
+        .container{max-width:480px;margin:0 auto}
+        .header{text-align:center;padding:2rem 0}
+        .header-emoji{font-size:4rem;margin-bottom:1rem;display:block;animation:bounce 2s ease infinite}
+        @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+        h1{font-family:var(--display);font-size:1.75rem;font-weight:800;margin-bottom:.5rem}
+        .subtitle{font-size:.95rem;color:var(--text2)}
+        .card{background:var(--card);border:1px solid var(--border);border-radius:1.5rem;padding:1.5rem;margin-bottom:1.5rem}
+        .progress-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:1rem}
+        .progress-label{font-size:.85rem;color:var(--text2)}
+        .progress-amount{font-family:var(--display);font-size:2rem;font-weight:800}
+        .progress-amount span{color:var(--text3);font-size:1.25rem}
+        .progress-bar-bg{height:12px;background:var(--bg3);border-radius:99px;overflow:hidden;margin-bottom:.75rem}
+        .progress-bar{height:100%;width:60%;background:linear-gradient(90deg,var(--pink),var(--accent));border-radius:99px;box-shadow:0 0 10px rgba(255,107,157,0.5)}
+        .progress-stats{display:flex;justify-content:space-between;font-size:.8rem;color:var(--text3)}
+        .note{background:var(--bg2);border-radius:.75rem;padding:1rem;margin-bottom:1.5rem;display:flex;gap:.75rem;font-size:.9rem;color:var(--text2)}
+        .note strong{color:var(--text)}
+        .contributors{background:var(--card);border:1px solid var(--border);border-radius:1.5rem;overflow:hidden;margin-bottom:1.5rem}
+        .contributors-header{padding:1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;font-family:var(--heading);font-weight:600}
+        .contributors-count{font-size:.85rem;color:var(--text3);font-weight:400}
+        .person{display:flex;align-items:center;gap:1rem;padding:1rem 1.5rem;border-bottom:1px solid var(--border)}
+        .person:last-child{border-bottom:none}
+        .avatar{width:44px;height:44px;border-radius:99px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;background:var(--bg3);color:var(--text2)}
+        .avatar.paid{background:rgba(0,255,136,0.15);color:var(--success);border:2px solid var(--success)}
+        .avatar.pending{background:rgba(255,217,61,0.15);color:var(--warning)}
+        .info{flex:1}
+        .name{font-family:var(--heading);font-weight:600;font-size:.95rem}
+        .status{font-size:.8rem;color:var(--text3)}
+        .amt{font-family:var(--heading);font-weight:600}
+        .amt.paid{color:var(--success)}
+        .amt.pending{color:var(--warning)}
+        .you{background:rgba(255,107,157,0.05)}
+        .share-card{background:linear-gradient(135deg,rgba(255,107,157,0.1),rgba(204,255,0,0.1));border:1px solid rgba(255,107,157,0.3);border-radius:1.5rem;padding:1.5rem;text-align:center;margin-bottom:1.5rem}
+        .share-label{font-size:.85rem;color:var(--text2);margin-bottom:.5rem}
+        .share-amount{font-family:var(--display);font-size:2.5rem;font-weight:800;color:var(--pink);margin-bottom:1rem}
+        .btn{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;font-family:var(--heading);font-size:.95rem;font-weight:600;padding:1rem;border-radius:.75rem;border:none;cursor:pointer;transition:all .25s;text-decoration:none}
+        .btn-primary{background:linear-gradient(135deg,var(--pink),var(--accent));color:var(--bg);box-shadow:0 0 20px rgba(255,107,157,0.3)}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(255,107,157,0.5)}
+        .btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border);margin-top:.75rem}
+        .receipt{background:var(--card);border:1px solid var(--border);border-radius:1.5rem;padding:1.5rem;margin-bottom:1.5rem}
+        .receipt-header{display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;font-size:.9rem;color:var(--text2)}
+        .receipt-img{width:100%;border-radius:.75rem;border:1px solid var(--border)}
+        .receipt-row{display:flex;justify-content:space-between;font-size:.9rem;padding:.5rem 0;border-top:1px solid var(--border);margin-top:1rem}
+        .receipt-row:first-of-type{margin-top:1rem;padding-top:1rem}
+        .receipt-row span{color:var(--text2)}
+        .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(4px);z-index:100;align-items:center;justify-content:center;padding:1rem}
+        .modal.active{display:flex}
+        .modal-card{width:100%;max-width:400px;background:var(--card);border:1px solid var(--border);border-radius:1.5rem;padding:1.5rem}
+        .modal-title{font-family:var(--heading);font-size:1.25rem;font-weight:600;text-align:center;margin-bottom:.5rem}
+        .modal-subtitle{font-size:.9rem;color:var(--text2);text-align:center;margin-bottom:1.5rem}
+        .modal-info{background:var(--bg2);border-radius:.75rem;padding:1rem;margin-bottom:1.25rem;text-align:center}
+        .modal-info-label{font-size:.8rem;color:var(--text3)}
+        .modal-info-amount{font-family:var(--display);font-size:2rem;font-weight:800;color:var(--pink)}
+        .modal-note{font-size:.85rem;color:var(--text2);text-align:center;margin-bottom:1.25rem}
+        .modal-note strong{color:var(--accent)}
+        .success-overlay{display:none;position:fixed;inset:0;background:var(--bg);z-index:200;align-items:center;justify-content:center;padding:1rem}
+        .success-overlay.active{display:flex}
+        .success-content{text-align:center;max-width:400px}
+        .success-icon{font-size:5rem;margin-bottom:1.5rem;display:block;animation:bounce 1s ease infinite}
+        .success-title{font-family:var(--display);font-size:2rem;font-weight:800;margin-bottom:.75rem;color:var(--success)}
+        .success-subtitle{font-size:1rem;color:var(--text2);margin-bottom:2rem}
+        .logo{text-align:center;padding:1.5rem 0;font-family:var(--display);font-size:1rem;font-weight:700;letter-spacing:.15em;color:var(--text3)}
+        .logo span{color:var(--accent)}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <span class="header-emoji">🎂</span>
+            <h1>Priya's Birthday Gift</h1>
+            <p class="subtitle">Let's make it special! 🎁</p>
+        </div>
+        
+        <div class="card">
+            <div class="progress-header">
+                <span class="progress-label">Collected</span>
+                <div class="progress-amount">₹3,000 <span>/ ₹5,000</span></div>
+            </div>
+            <div class="progress-bar-bg"><div class="progress-bar"></div></div>
+            <div class="progress-stats"><span>60% funded</span><span>₹2,000 to go</span></div>
+        </div>
+        
+        <div class="note">
+            <span>👑</span>
+            <p><strong>Rahul</strong> is organizing. Pay him directly via UPI and mark as contributed.</p>
+        </div>
+        
+        <div class="contributors">
+            <div class="contributors-header"><span>Contributors</span><span class="contributors-count">3 of 5 paid</span></div>
+            <div class="person"><div class="avatar paid">R</div><div class="info"><div class="name">Rahul 👑</div><div class="status">Organizer • Paid</div></div><div class="amt paid">₹1,000 ✓</div></div>
+            <div class="person"><div class="avatar paid">A</div><div class="info"><div class="name">Arjun</div><div class="status">Paid on Oct 28</div></div><div class="amt paid">₹1,000 ✓</div></div>
+            <div class="person"><div class="avatar paid">S</div><div class="info"><div class="name">Sneha</div><div class="status">Paid on Oct 29</div></div><div class="amt paid">₹1,000 ✓</div></div>
+            <div class="person"><div class="avatar pending">V</div><div class="info"><div class="name">Vikram</div><div class="status">Pending...</div></div><div class="amt pending">₹1,000</div></div>
+            <div class="person you"><div class="avatar pending">Y</div><div class="info"><div class="name">You</div><div class="status">Your turn!</div></div><div class="amt pending">₹1,000</div></div>
+        </div>
+        
+        <div class="share-card">
+            <div class="share-label">Your Share</div>
+            <div class="share-amount">₹1,000</div>
+            <button class="btn btn-primary" onclick="openModal()">💝 Mark as Contributed</button>
+            <button class="btn btn-secondary">📱 Get Rahul's UPI</button>
+        </div>
+        
+        <div class="receipt">
+            <div class="receipt-header"><span>🧾</span><span>Gift Receipt</span></div>
+            <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200'%3E%3Crect fill='%231a1a1a' width='400' height='200'/%3E%3Ctext x='50%25' y='35%25' fill='%23666' font-family='sans-serif' font-size='12' text-anchor='middle'%3EAmazon.in Order%3C/text%3E%3Ctext x='50%25' y='55%25' fill='%23fff' font-family='sans-serif' font-size='16' font-weight='bold' text-anchor='middle'%3ESony WH-1000XM5%3C/text%3E%3Ctext x='50%25' y='75%25' fill='%23FF6B9D' font-family='sans-serif' font-size='18' font-weight='bold' text-anchor='middle'%3E₹4,999%3C/text%3E%3C/svg%3E" alt="Gift" class="receipt-img">
+            <div class="receipt-row"><span>Gift</span><strong>Sony WH-1000XM5</strong></div>
+            <div class="receipt-row"><span>Price</span><strong>₹4,999</strong></div>
+            <div class="receipt-row"><span>Purchased by</span><strong>Rahul</strong></div>
+        </div>
+        
+        <div class="logo">LEKK<span>∆</span></div>
+    </div>
+    
+    <div class="modal" id="modal">
+        <div class="modal-card">
+            <h3 class="modal-title">Confirm Contribution</h3>
+            <p class="modal-subtitle">Did you send ₹1,000 to Rahul?</p>
+            <div class="modal-info"><div class="modal-info-label">Your Share</div><div class="modal-info-amount">₹1,000</div></div>
+            <p class="modal-note">Pay Rahul directly via UPI/Cash.<br><strong>This just marks you as contributed.</strong></p>
+            <button class="btn btn-primary" onclick="confirm()">✅ Yes, I've Paid</button>
+            <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+        </div>
+    </div>
+    
+    <div class="success-overlay" id="success">
+        <div class="success-content">
+            <span class="success-icon">🎉</span>
+            <h2 class="success-title">You're In!</h2>
+            <p class="success-subtitle">Thanks for contributing to Priya's gift!<br>Rahul will confirm receipt.</p>
+            <button class="btn btn-primary" onclick="location.reload()">Done</button>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        function openModal(){document.getElementById('modal').classList.add('active')}
+        function closeModal(){document.getElementById('modal').classList.remove('active')}
+        function confirm(){closeModal();document.getElementById('success').classList.add('active');confetti({particleCount:100,spread:70,origin:{y:0.6},colors:['#FF6B9D','#CCFF00','#00FF88']})}
+        document.getElementById('modal').addEventListener('click',e=>{if(e.target===document.getElementById('modal'))closeModal()})
+    </script>
+</body>
+</html>

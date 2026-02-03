@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0a0a">
+    <title>Lekka Reminder — ₹500 Overdue</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⏰</text></svg>">
+    <style>
+        :root{--bg:#0a0a0a;--bg2:#111;--bg3:#1a1a1a;--card:#151515;--accent:#CCFF00;--accent-rgb:204,255,0;--text:#fff;--text2:#B3B3B3;--text3:#666;--success:#00FF88;--warning:#FFD93D;--error:#FF6B6B;--border:rgba(255,255,255,0.08);--display:'Syne',sans-serif;--heading:'Space Grotesk',sans-serif;--body:'DM Sans',sans-serif}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:var(--body);font-size:16px;line-height:1.6;color:var(--text);background:var(--bg);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1rem;background-image:radial-gradient(circle at 50% 0%,rgba(255,107,107,0.1),transparent 50%)}
+        .card{width:100%;max-width:420px;background:var(--card);border:1px solid var(--border);border-radius:1.5rem;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,0.4);animation:slideUp .6s ease-out}
+        @keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        .card-header{background:rgba(255,107,107,0.08);padding:2rem 1.5rem;text-align:center;border-bottom:1px dashed var(--border);position:relative}
+        .card-header::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--error),var(--warning))}
+        .overdue-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,107,107,0.2);border:1px solid rgba(255,107,107,0.4);padding:.4rem 1rem;border-radius:99px;font-size:.8rem;font-weight:600;color:var(--error);margin-bottom:1rem;animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+        .avatar{width:72px;height:72px;margin:0 auto 1rem;background:linear-gradient(135deg,var(--bg3),var(--bg2));border:2px solid var(--error);border-radius:99px;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.75rem;font-weight:700;color:var(--error);box-shadow:0 0 20px rgba(255,107,107,0.2)}
+        .title{font-family:var(--heading);font-size:1.15rem;font-weight:600;margin-bottom:.5rem}
+        .amount{font-family:var(--display);font-size:3rem;font-weight:800;color:var(--error);line-height:1;margin:.75rem 0;text-shadow:0 0 30px rgba(255,107,107,0.4)}
+        .overdue-days{font-size:.9rem;color:var(--error);font-weight:500}
+        .card-body{padding:1.5rem}
+        .details{background:var(--bg2);border-radius:.75rem;padding:1rem;margin-bottom:1.25rem}
+        .detail-row{display:flex;justify-content:space-between;padding:.5rem 0;font-size:.9rem;color:var(--text2);border-bottom:1px solid var(--border)}
+        .detail-row:last-child{border-bottom:none}
+        .detail-row strong{color:var(--text)}
+        .message{background:rgba(var(--accent-rgb),0.05);border:1px solid rgba(var(--accent-rgb),0.15);border-left:3px solid var(--accent);padding:1rem;border-radius:.5rem;margin-bottom:1.25rem;font-size:.9rem;color:var(--text)}
+        .message-label{font-size:.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.5rem}
+        .actions{display:flex;flex-direction:column;gap:.75rem}
+        .btn{display:flex;align-items:center;justify-content:center;gap:.5rem;width:100%;font-family:var(--heading);font-size:.95rem;font-weight:600;padding:1rem;border-radius:.75rem;border:none;cursor:pointer;transition:all .25s;text-decoration:none}
+        .btn-primary{background:var(--success);color:var(--bg);box-shadow:0 0 20px rgba(0,255,136,0.3)}
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(0,255,136,0.5)}
+        .btn-secondary{background:transparent;color:var(--text);border:1px solid var(--border)}
+        .btn-secondary:hover{border-color:var(--warning);color:var(--warning)}
+        .trust-note{text-align:center;font-size:.8rem;color:var(--text3);margin-top:1.25rem;font-style:italic}
+        .logo{margin-top:1.5rem;font-family:var(--display);font-size:1rem;font-weight:700;letter-spacing:.15em;color:var(--text3)}
+        .logo span{color:var(--accent)}
+        .success-state{display:none;padding:2.5rem 1.5rem;text-align:center}
+        .success-icon{font-size:4rem;display:block;margin-bottom:1rem;animation:bounce 1s ease infinite}
+        @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+        .success-title{font-family:var(--display);font-size:1.75rem;font-weight:700;margin-bottom:.5rem;color:var(--success)}
+        .success-subtitle{font-size:1rem;color:var(--text2);margin-bottom:1.5rem}
+        @media(max-width:480px){.amount{font-size:2.5rem}.title{font-size:1rem}}
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div id="main-state">
+            <div class="card-header">
+                <div class="overdue-badge">⚠️ 7 Days Overdue</div>
+                <div class="avatar">R</div>
+                <h1 class="title">Rahul is waiting...</h1>
+                <div class="amount">₹500</div>
+                <p class="overdue-days">Was due on Oct 25, 2025</p>
+            </div>
+            <div class="card-body">
+                <div class="details">
+                    <div class="detail-row"><span>📅 Created</span><strong>Oct 18, 2025</strong></div>
+                    <div class="detail-row"><span>📝 For</span><strong>Biryani at Paradise</strong></div>
+                    <div class="detail-row"><span>⏰ Original Due</span><strong>Oct 25, 2025</strong></div>
+                    <div class="detail-row"><span>🔴 Days Overdue</span><strong style="color:var(--error)">7 days</strong></div>
+                </div>
+                <div class="message">
+                    <div class="message-label">💭 From Rahul</div>
+                    "Hey! Just checking in about the Lekka. No rush, but wanted to make sure we're on the same page!"
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="markPaid()">✅ I've Paid — Mark as Settled</button>
+                    <button class="btn btn-secondary" onclick="requestTime()">🕐 Need More Time</button>
+                </div>
+                <p class="trust-note">₹500 in cash, priceless in trust.<br>Your word is your bond.</p>
+            </div>
+        </div>
+        <div id="success-state" class="success-state">
+            <span class="success-icon">🎉</span>
+            <h2 class="success-title">Payment Submitted!</h2>
+            <p class="success-subtitle">Rahul will confirm receipt.<br>Thanks for settling up!</p>
+            <a href="index.html" class="btn btn-primary">Back to Lekka</a>
+        </div>
+        <div id="time-state" class="success-state">
+            <span class="success-icon">👍</span>
+            <h2 class="success-title" style="color:var(--warning)">Extension Requested</h2>
+            <p class="success-subtitle">Rahul will be notified.<br>Communication is key!</p>
+            <a href="index.html" class="btn btn-secondary">Back to Lekka</a>
+        </div>
+    </div>
+    <div class="logo">LEKK<span>∆</span></div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        function markPaid(){document.getElementById('main-state').style.display='none';document.getElementById('success-state').style.display='block';confetti({particleCount:100,spread:70,origin:{y:0.6},colors:['#00FF88','#CCFF00','#fff']})}
+        function requestTime(){document.getElementById('main-state').style.display='none';document.getElementById('time-state').style.display='block'}
+    </script>
+</body>
+</html>
