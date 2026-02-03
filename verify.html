@@ -4,26 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#0a0a0a">
-    <title>Verify Lekka — Request from Rahul</title>
+    <title>Verify Lekka — Rahul sent you a receipt</title>
     
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/components.css">
-    <link rel="stylesheet" href="css/sections.css">
-    <link rel="stylesheet" href="css/animations.css">
-    <link rel="stylesheet" href="css/responsive.css">
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💸</text></svg>">
     
-    <script src="https://cdn.tailwindcss.com"></script>
-
     <style>
-        /* Specific Styles for the Receipt Card */
+        /* =================================
+           CSS Variables (inline for standalone)
+           ================================= */
+        :root {
+            --color-bg-primary: #0a0a0a;
+            --color-bg-secondary: #111111;
+            --color-bg-tertiary: #1a1a1a;
+            --color-bg-card: #151515;
+            
+            --color-accent-primary: #CCFF00;
+            --color-accent-primary-rgb: 204, 255, 0;
+            --color-accent-secondary: #00FF88;
+            
+            --color-text-primary: #FFFFFF;
+            --color-text-secondary: #B3B3B3;
+            --color-text-tertiary: #666666;
+            
+            --color-success: #00FF88;
+            --color-warning: #FFD93D;
+            --color-error: #FF6B6B;
+            
+            --color-border: rgba(255, 255, 255, 0.08);
+            --color-border-hover: rgba(255, 255, 255, 0.15);
+            
+            --font-display: 'Syne', sans-serif;
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+            
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --radius-xl: 16px;
+            --radius-2xl: 24px;
+            --radius-full: 9999px;
+            
+            --space-1: 0.25rem;
+            --space-2: 0.5rem;
+            --space-3: 0.75rem;
+            --space-4: 1rem;
+            --space-5: 1.25rem;
+            --space-6: 1.5rem;
+            --space-8: 2rem;
+            --space-10: 2.5rem;
+        }
+
+        /* =================================
+           Base Styles
+           ================================= */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--color-text-primary);
+            background-color: var(--color-bg-primary);
+        }
+
+        /* =================================
+           Verify Page Layout
+           ================================= */
         .verify-page {
             min-height: 100vh;
+            min-height: 100dvh;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             background-color: var(--color-bg-primary);
@@ -32,28 +97,58 @@
             padding: var(--space-4);
         }
 
+        /* =================================
+           Receipt Card
+           ================================= */
         .receipt-card {
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             background: var(--color-bg-card);
             border: 1px solid var(--color-border);
             border-radius: var(--radius-2xl);
-            padding: 0;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            box-shadow: 
+                0 20px 40px rgba(0,0,0,0.4),
+                0 0 80px rgba(var(--color-accent-primary-rgb), 0.05);
+            animation: slideUp 0.6s ease-out;
         }
 
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =================================
+           Receipt Header
+           ================================= */
         .receipt-header {
-            background: rgba(var(--color-accent-primary-rgb), 0.05);
-            padding: var(--space-6);
+            background: rgba(var(--color-accent-primary-rgb), 0.03);
+            padding: var(--space-8) var(--space-6);
             text-align: center;
             border-bottom: 1px dashed var(--color-border);
+            position: relative;
+        }
+
+        .receipt-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-accent-primary), var(--color-accent-secondary));
         }
 
         .receipt-avatar {
-            width: 64px;
-            height: 64px;
+            width: 72px;
+            height: 72px;
             margin: 0 auto var(--space-4);
             background: linear-gradient(135deg, var(--color-bg-tertiary), var(--color-bg-secondary));
             border: 2px solid var(--color-accent-primary);
@@ -62,184 +157,698 @@
             align-items: center;
             justify-content: center;
             font-family: var(--font-display);
-            font-size: var(--text-2xl);
+            font-size: 1.75rem;
+            font-weight: 700;
             color: var(--color-accent-primary);
+            box-shadow: 0 0 20px rgba(var(--color-accent-primary-rgb), 0.2);
+        }
+
+        .receipt-tag {
+            display: inline-block;
+            font-family: var(--font-heading);
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--color-accent-primary);
+            background: rgba(var(--color-accent-primary-rgb), 0.1);
+            padding: var(--space-1) var(--space-3);
+            border-radius: var(--radius-full);
+            margin-bottom: var(--space-3);
+        }
+
+        .receipt-title {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            margin-bottom: var(--space-2);
         }
 
         .receipt-amount {
             font-family: var(--font-display);
-            font-size: var(--text-5xl);
+            font-size: 3.5rem;
+            font-weight: 800;
             color: var(--color-accent-primary);
-            margin: var(--space-2) 0;
-            text-shadow: 0 0 20px rgba(var(--color-accent-primary-rgb), 0.3);
+            line-height: 1;
+            margin: var(--space-4) 0;
+            text-shadow: 0 0 30px rgba(var(--color-accent-primary-rgb), 0.4);
         }
 
+        .receipt-subtitle {
+            font-size: 0.85rem;
+            color: var(--color-text-tertiary);
+            font-style: italic;
+        }
+
+        /* =================================
+           Receipt Body
+           ================================= */
         .receipt-body {
             padding: var(--space-6);
+        }
+
+        .receipt-details {
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-bottom: var(--space-5);
         }
 
         .receipt-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: var(--space-3);
-            font-size: var(--text-sm);
+            align-items: center;
+            padding: var(--space-2) 0;
+            font-size: 0.9rem;
             color: var(--color-text-secondary);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .receipt-row:last-child {
+            border-bottom: none;
         }
 
         .receipt-row strong {
             color: var(--color-text-primary);
+            font-weight: 500;
         }
 
         .receipt-note {
-            background: var(--color-bg-secondary);
-            padding: var(--space-3);
+            background: rgba(var(--color-accent-primary-rgb), 0.05);
+            border: 1px solid rgba(var(--color-accent-primary-rgb), 0.1);
+            border-left: 3px solid var(--color-accent-primary);
+            padding: var(--space-3) var(--space-4);
             border-radius: var(--radius-md);
-            margin: var(--space-4) 0;
-            font-size: var(--text-sm);
+            margin-bottom: var(--space-5);
+            font-size: 0.9rem;
             color: var(--color-text-primary);
             display: flex;
+            align-items: flex-start;
             gap: var(--space-2);
         }
 
+        .receipt-note-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* =================================
+           Trust Message (Cash Loans)
+           ================================= */
+        .trust-message {
+            background: var(--color-bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4);
+            margin-bottom: var(--space-5);
+            text-align: center;
+        }
+
+        .trust-message p {
+            font-size: 0.85rem;
+            color: var(--color-text-secondary);
+            font-style: italic;
+            line-height: 1.6;
+        }
+
+        .trust-message strong {
+            color: var(--color-accent-primary);
+        }
+
+        /* =================================
+           Action Buttons
+           ================================= */
         .receipt-actions {
             display: flex;
             flex-direction: column;
             gap: var(--space-3);
         }
 
-        /* Confetti Canvas */
-        #confetti-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 999;
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: var(--space-2);
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            font-weight: 600;
+            padding: var(--space-4) var(--space-6);
+            border-radius: var(--radius-lg);
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
         }
 
-        /* Success State */
-        .success-message {
-            display: none;
-            text-align: center;
-            animation: fadeIn 0.5s ease-out;
+        .btn--primary {
+            background: var(--color-accent-primary);
+            color: var(--color-bg-primary);
+            box-shadow: 0 0 20px rgba(var(--color-accent-primary-rgb), 0.3);
         }
-        
+
+        .btn--primary:hover {
+            background: #d9ff33;
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(var(--color-accent-primary-rgb), 0.5);
+        }
+
+        .btn--secondary {
+            background: transparent;
+            color: var(--color-text-primary);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn--secondary:hover {
+            border-color: var(--color-warning);
+            color: var(--color-warning);
+        }
+
+        .btn--ghost {
+            background: transparent;
+            color: var(--color-text-tertiary);
+            font-size: 0.85rem;
+            padding: var(--space-2);
+        }
+
+        .btn--ghost:hover {
+            color: var(--color-error);
+        }
+
+        .btn-icon {
+            font-size: 1.1rem;
+        }
+
+        /* =================================
+           Different Amount Modal
+           ================================= */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: var(--space-4);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-card {
+            width: 100%;
+            max-width: 380px;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-6);
+            animation: scaleIn 0.3s ease;
+        }
+
+        @keyframes scaleIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .modal-title {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+            text-align: center;
+        }
+
+        .modal-subtitle {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            text-align: center;
+            margin-bottom: var(--space-6);
+        }
+
+        .amount-input-group {
+            position: relative;
+            margin-bottom: var(--space-5);
+        }
+
+        .amount-input-prefix {
+            position: absolute;
+            left: var(--space-4);
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-text-tertiary);
+        }
+
+        .amount-input {
+            width: 100%;
+            background: var(--color-bg-secondary);
+            border: 2px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: var(--space-4) var(--space-4) var(--space-4) var(--space-10);
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-text-primary);
+            text-align: left;
+            transition: border-color 0.2s;
+        }
+
+        .amount-input:focus {
+            outline: none;
+            border-color: var(--color-accent-primary);
+        }
+
+        .amount-input::placeholder {
+            color: var(--color-text-tertiary);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: var(--space-3);
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+        }
+
+        /* =================================
+           Success State
+           ================================= */
+        .success-state {
+            display: none;
+            padding: var(--space-10) var(--space-6);
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
         .success-icon {
             font-size: 4rem;
-            margin-bottom: var(--space-4);
             display: block;
-            animation: bounce 2s infinite;
+            margin-bottom: var(--space-4);
+            animation: bounce 1s ease infinite;
         }
 
-        .btn-dispute {
-            text-align: center;
-            font-size: var(--text-sm);
-            color: var(--color-text-tertiary);
-            text-decoration: underline;
-            padding: var(--space-2);
-            opacity: 0.7;
-            transition: opacity 0.2s;
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
-        .btn-dispute:hover {
-            opacity: 1;
+
+        .success-title {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: var(--space-2);
+        }
+
+        .success-subtitle {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-8);
+        }
+
+        .success-cta {
+            background: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            padding: var(--space-5);
+            margin-bottom: var(--space-4);
+        }
+
+        .success-cta-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-text-tertiary);
+            margin-bottom: var(--space-3);
+        }
+
+        .success-footer {
+            font-size: 0.8rem;
+            color: var(--color-text-tertiary);
+        }
+
+        /* =================================
+           Dispute Sent State
+           ================================= */
+        .dispute-state {
+            display: none;
+            padding: var(--space-10) var(--space-6);
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .dispute-icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: var(--space-4);
+        }
+
+        .dispute-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--space-2);
+            color: var(--color-warning);
+        }
+
+        .dispute-subtitle {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--space-6);
+        }
+
+        /* =================================
+           Rejected State
+           ================================= */
+        .rejected-state {
+            display: none;
+            padding: var(--space-10) var(--space-6);
+            text-align: center;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .rejected-icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: var(--space-4);
+        }
+
+        .rejected-title {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--space-2);
             color: var(--color-error);
+        }
+
+        .rejected-subtitle {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+        }
+
+        /* =================================
+           Logo
+           ================================= */
+        .logo {
+            margin-top: var(--space-6);
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            color: var(--color-text-tertiary);
+        }
+
+        .logo span {
+            color: var(--color-accent-primary);
+        }
+
+        /* =================================
+           Responsive
+           ================================= */
+        @media (max-width: 480px) {
+            .receipt-amount {
+                font-size: 2.75rem;
+            }
+
+            .receipt-title {
+                font-size: 1.1rem;
+            }
+
+            .btn {
+                padding: var(--space-3) var(--space-4);
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 <body>
 
     <div class="verify-page">
-        <canvas id="confetti-canvas"></canvas>
-
-        <div class="receipt-card animate-fade-in-up" id="main-card">
+        
+        <div class="receipt-card" id="main-card">
             
+            <!-- ===== REQUEST STATE ===== -->
             <div id="request-state">
                 <div class="receipt-header">
                     <div class="receipt-avatar">R</div>
-                    <p class="text-sm text-gray-400 uppercase tracking-widest mb-1">The Moment of Truth</p>
-                    <h2 class="text-xl font-bold">Rahul kept the receipt.</h2>
+                    <span class="receipt-tag">Lekka Receipt</span>
+                    <h1 class="receipt-title">Rahul kept the record.</h1>
                     <div class="receipt-amount">₹500</div>
-                    <p class="text-xs text-gray-500 mt-2">Do you keep your word?</p>
+                    <p class="receipt-subtitle">Do you keep your word?</p>
                 </div>
 
                 <div class="receipt-body">
-                    <div class="receipt-row">
-                        <span>Date</span>
-                        <strong>Oct 24, 2025</strong>
-                    </div>
-                    <div class="receipt-row">
-                        <span>Category</span>
-                        <strong>Food & Dining</strong>
+                    <div class="receipt-details">
+                        <div class="receipt-row">
+                            <span>📅 Date</span>
+                            <strong>Oct 24, 2025</strong>
+                        </div>
+                        <div class="receipt-row">
+                            <span>🏷️ Category</span>
+                            <strong>Food & Dining</strong>
+                        </div>
+                        <div class="receipt-row">
+                            <span>⏰ Due Date</span>
+                            <strong>Nov 1, 2025</strong>
+                        </div>
                     </div>
 
                     <div class="receipt-note">
-                        <span class="text-gray-500">📝</span>
-                        <em>"For: Biryani at Paradise"</em>
+                        <span class="receipt-note-icon">📝</span>
+                        <em>"Biryani at Paradise. You said you'd pay next week!"</em>
+                    </div>
+
+                    <!-- Trust Message (shown for cash loans) -->
+                    <div class="trust-message">
+                        <p>₹500 in cash, <strong>priceless in trust</strong>.<br>
+                        Your friend didn't ask for proof — don't make them regret it.</p>
                     </div>
 
                     <div class="receipt-actions">
-                        <button onclick="confirmLekka()" class="btn btn--primary btn--large btn--glow w-full justify-center">
-                            ✅ Yeah, that's right
+                        <button onclick="confirmLekka()" class="btn btn--primary">
+                            <span class="btn-icon">✅</span>
+                            Yeah, that's right
                         </button>
-                        <a href="#" class="btn-dispute">❌ Nah, he's hallucinating</a>
+                        
+                        <button onclick="openDisputeModal()" class="btn btn--secondary">
+                            <span class="btn-icon">🤔</span>
+                            Amount is different
+                        </button>
+                        
+                        <button onclick="rejectLekka()" class="btn btn--ghost">
+                            ❌ This is fake / I never borrowed
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <div id="success-state" class="success-message receipt-body" style="padding: var(--space-10) var(--space-6);">
+            <!-- ===== SUCCESS STATE ===== -->
+            <div id="success-state" class="success-state">
                 <span class="success-icon">🎉</span>
-                <h2 class="text-2xl font-bold mb-2">Lekka Verified!</h2>
-                <p class="text-gray-400 mb-6">You've confirmed the ₹500. We'll remind you gently later.</p>
+                <h2 class="success-title">Lekka Verified!</h2>
+                <p class="success-subtitle">
+                    You've confirmed ₹500. Rahul will be notified.<br>
+                    We'll send gentle reminders as the due date approaches.
+                </p>
                 
-                <div class="bg-gray-900 p-4 rounded-xl border border-gray-800 mb-4">
-                    <p class="text-xs text-gray-500 uppercase mb-2">Want to track your own?</p>
-                    <a href="index.html" class="btn btn--secondary w-full justify-center">
-                        Download Lekka
+                <div class="success-cta">
+                    <p class="success-cta-label">Want to track what others owe you?</p>
+                    <a href="index.html" class="btn btn--primary" style="width: 100%;">
+                        Download Lekka — It's Free
                     </a>
                 </div>
-                <p class="text-xs text-gray-600">This receipt is saved on Rahul's device.</p>
+                
+                <p class="success-footer">
+                    🔒 This receipt is saved locally on Rahul's device.
+                </p>
+            </div>
+
+            <!-- ===== DISPUTE SENT STATE ===== -->
+            <div id="dispute-state" class="dispute-state">
+                <span class="dispute-icon">📨</span>
+                <h2 class="dispute-title">Counter Sent!</h2>
+                <p class="dispute-subtitle">
+                    You've proposed <strong id="counter-amount">₹300</strong> instead of ₹500.<br>
+                    Rahul will be notified to accept or discuss.
+                </p>
+                
+                <div class="success-cta">
+                    <p class="success-cta-label">Track your own Lekkas</p>
+                    <a href="index.html" class="btn btn--secondary" style="width: 100%;">
+                        Get Lekka App
+                    </a>
+                </div>
+            </div>
+
+            <!-- ===== REJECTED STATE ===== -->
+            <div id="rejected-state" class="rejected-state">
+                <span class="rejected-icon">🚫</span>
+                <h2 class="rejected-title">Lekka Disputed</h2>
+                <p class="rejected-subtitle">
+                    You've rejected this Lekka.<br>
+                    Rahul will be notified that you dispute this transaction.
+                </p>
             </div>
 
         </div>
+
+        <!-- Logo -->
+        <div class="logo">LEKK<span>∆</span></div>
+
     </div>
 
+    <!-- ===== DISPUTE AMOUNT MODAL ===== -->
+    <div class="modal-overlay" id="dispute-modal">
+        <div class="modal-card">
+            <h3 class="modal-title">What's the correct amount?</h3>
+            <p class="modal-subtitle">Rahul says ₹500. What do you remember?</p>
+            
+            <div class="amount-input-group">
+                <span class="amount-input-prefix">₹</span>
+                <input 
+                    type="number" 
+                    class="amount-input" 
+                    id="counter-input"
+                    placeholder="Enter amount"
+                    min="1"
+                >
+            </div>
+            
+            <div class="modal-actions">
+                <button onclick="closeDisputeModal()" class="btn btn--secondary">
+                    Cancel
+                </button>
+                <button onclick="submitCounter()" class="btn btn--primary">
+                    Send Counter
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confetti Library -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
     <script>
+        // ===== CONFIRM LEKKA =====
         function confirmLekka() {
-            // 1. Hide Request, Show Success
+            // Hide request, show success
             document.getElementById('request-state').style.display = 'none';
             document.getElementById('success-state').style.display = 'block';
 
-            // 2. Trigger Confetti
-            var duration = 3 * 1000;
-            var animationEnd = Date.now() + duration;
-            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-
-            var random = function(min, max) { return Math.random() * (max - min) + min; };
-
-            var interval = setInterval(function() {
-                var timeLeft = animationEnd - Date.now();
-
-                if (timeLeft <= 0) {
-                    return clearInterval(interval);
-                }
-
-                var particleCount = 50 * (timeLeft / duration);
-                
-                // Colors: Neon Green and White
-                confetti(Object.assign({}, defaults, { 
-                    particleCount, 
-                    origin: { x: random(0.1, 0.3), y: Math.random() - 0.2 },
-                    colors: ['#CCFF00', '#ffffff'] 
-                }));
-                confetti(Object.assign({}, defaults, { 
-                    particleCount, 
-                    origin: { x: random(0.7, 0.9), y: Math.random() - 0.2 },
-                    colors: ['#CCFF00', '#ffffff'] 
-                }));
-            }, 250);
+            // Trigger confetti celebration
+            fireConfetti();
         }
+
+        // ===== CONFETTI EFFECT =====
+        function fireConfetti() {
+            const duration = 3000;
+            const animationEnd = Date.now() + duration;
+            const colors = ['#CCFF00', '#00FF88', '#ffffff'];
+
+            (function frame() {
+                confetti({
+                    particleCount: 3,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: colors
+                });
+                confetti({
+                    particleCount: 3,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: colors
+                });
+
+                if (Date.now() < animationEnd) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+
+            // Big burst in the middle
+            setTimeout(() => {
+                confetti({
+                    particleCount: 100,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: colors
+                });
+            }, 300);
+        }
+
+        // ===== DISPUTE MODAL =====
+        function openDisputeModal() {
+            document.getElementById('dispute-modal').classList.add('active');
+            document.getElementById('counter-input').focus();
+        }
+
+        function closeDisputeModal() {
+            document.getElementById('dispute-modal').classList.remove('active');
+            document.getElementById('counter-input').value = '';
+        }
+
+        function submitCounter() {
+            const counterValue = document.getElementById('counter-input').value;
+            
+            if (!counterValue || counterValue <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+
+            // Update the counter amount display
+            document.getElementById('counter-amount').textContent = '₹' + counterValue;
+            
+            // Close modal and show dispute state
+            closeDisputeModal();
+            document.getElementById('request-state').style.display = 'none';
+            document.getElementById('dispute-state').style.display = 'block';
+        }
+
+        // ===== REJECT LEKKA =====
+        function rejectLekka() {
+            if (confirm('Are you sure you want to reject this Lekka? Rahul will be notified.')) {
+                document.getElementById('request-state').style.display = 'none';
+                document.getElementById('rejected-state').style.display = 'block';
+            }
+        }
+
+        // ===== CLOSE MODAL ON OUTSIDE CLICK =====
+        document.getElementById('dispute-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeDisputeModal();
+            }
+        });
+
+        // ===== CLOSE MODAL ON ESCAPE KEY =====
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDisputeModal();
+            }
+        });
+
+        // ===== ENTER KEY TO SUBMIT COUNTER =====
+        document.getElementById('counter-input').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                submitCounter();
+            }
+        });
     </script>
 </body>
 </html>
